@@ -1,7 +1,7 @@
 import java.io.Serializable
 
 class Block(val from:String,
-            val to: String,
+            var to: String,
             var nounce: Int,
             var hash: String,
             var parentHash: String): Serializable {

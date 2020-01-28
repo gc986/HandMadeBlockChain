@@ -22,7 +22,7 @@ fun main(){
     chains.add(lastBlock)
     println(lastBlock.toString())
     
-    for(i in 1..100){
+    for(i in 1..25){
         val block = Block(lastBlock.to, "$i", 0, "", lastBlock.hash)
         val nextHash = makeHashForBlock(block)
         if (nextHash == ERR)
@@ -32,6 +32,25 @@ fun main(){
         lastBlock = block
         println("$i -----------------------")
         println(block.toString())
+    }
+
+    // compromat
+
+    println()
+    println("Find compromat")
+    chains[10].to = "101"
+
+    for (i in 0 until chains.size){
+        val block = chains[i]
+        val oldHash = block.hash
+        block.hash = ""
+        val checkHash = makeHashForBlock(block)
+        block.hash = oldHash
+        if(oldHash!=checkHash){
+            println("Block $i is BAD!")
+            println(block.toString())
+            throw Exception("Not bad ))")
+        }
     }
 
     println("End of program :: ${Date()}")
@@ -46,8 +65,7 @@ fun makeHashForBlock(block: Block): String{
         if (str[0]=='0' &&
             str[1]=='0' &&
             str[2]=='0' &&
-            str[3]=='0' &&
-            str[4]=='0')
+            str[3]=='0')
             return str
     }
 
